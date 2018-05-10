@@ -158,7 +158,7 @@ _jQuery) {
                 this._pageContext.setTrackObject(pageObj);
                 this._ioBind = mx.ui.openForm(this.pageContent, {
                     context: this._pageContext,
-                    location: "content",
+                    location: "node",
                     domNode: this.slidecontent,
                     callback: dojoLang.hitch(this, function(form) {
                         logger.debug(this.id + '._loadPage page load. ' + form.id);
@@ -167,7 +167,7 @@ _jQuery) {
             } else {
                 logger.debug(this.id + '._setPage get page.');
                 var ioBind = mx.ui.openForm(this.pageContent, {
-                    location: "content",
+                    location: "node",
                     domNode: this.slidecontent,
                     callback: dojoLang.hitch(this, function(form) {
                         logger.debug(this.id + '._loadPage page load. ' + form.id);
