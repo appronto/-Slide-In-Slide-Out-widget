@@ -78,7 +78,6 @@ dom,dojoDom,domQuery,domProp,domGeom,domClass,domAttr,domStyle,win,domConstruct,
                     self._setStyleText(this.slidecontent, "display:none;");
                 });
 
-
                 this.contentDisplay = false;
 
                 $(window).off("click");
@@ -138,9 +137,8 @@ dom,dojoDom,domQuery,domProp,domGeom,domClass,domAttr,domStyle,win,domConstruct,
                 domNode: this.slidecontent,
                 callback: dojoLang.hitch(this, function(form) {
                     logger.debug(this.id + '._loadPage page load. ' + form.id);
-                    this._mxForm = form;
                 }),
-                error: dojoLang.hitch(this, function(form) {
+                error: dojoLang.hitch(this, function() {
                     logger.debug(this.id + '._loadPage Error loading page.');
                 })
             };
@@ -149,31 +147,10 @@ dom,dojoDom,domQuery,domProp,domGeom,domClass,domAttr,domStyle,win,domConstruct,
                 var pageContext = new mendix.lib.MxContext();
                 pageContext.setTrackObject(pageObj);
                 props.context = pageContext;
-                logger.debug(this.id + '._setPage get page with context.');
-                this._pageContext = new mendix.lib.MxContext();
-                this._pageContext.setTrackObject(pageObj);
-                this._ioBind = mx.ui.openForm(this.pageContent, {
-                    context: this._pageContext,
-                    location: "node",
-                    domNode: this.slidecontent,
-                    callback: dojoLang.hitch(this, function(form) {
-                        logger.debug(this.id + '._loadPage page load. ' + form.id);
-                    })
-                });
-            } else {
-                logger.debug(this.id + '._setPage get page.');
-                var ioBind = mx.ui.openForm(this.pageContent, {
-                    location: "node",
-                    domNode: this.slidecontent,
-                    callback: dojoLang.hitch(this, function(form) {
-                        logger.debug(this.id + '._loadPage page load. ' + form.id);
-                    })
-                });
             }
             
             this._form = mx.ui.openForm(this.pageContent, props);
             this.contentSet = true;
-            
         },
 
         _setButtonTop: function() {
@@ -198,7 +175,7 @@ dom,dojoDom,domQuery,domProp,domGeom,domClass,domAttr,domStyle,win,domConstruct,
 
         // mxui.widget._WidgetBase.uninitialize is called when the widget is destroyed. Implement to do special tear-down work.
         uninitialize: function() {
-            console.log("Destroy Slide In/Out");
+            console.log(this.id +" > Destroy Slide In/Out");
             if (this.contentDisplay) {
                 $(window).off("click");
             }
@@ -208,6 +185,10 @@ dom,dojoDom,domQuery,domProp,domGeom,domClass,domAttr,domStyle,win,domConstruct,
                     window.slideoutstorage.splice(index, 1);
                 }
                 logger.debug(this.id + ".uninitialize params found at: " + index + " for length: " + window.slideoutstorage.length);
+            }
+            
+            if(this._mxForm){
+                this._mxForm.destroy();
             }
             
             this.slideholding.innerHTML = "";
