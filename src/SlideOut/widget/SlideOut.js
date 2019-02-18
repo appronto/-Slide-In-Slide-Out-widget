@@ -23,40 +23,21 @@ define([
     'SlideOut/lib/jquery-1.11.2'
 ], function(
 // Mixins
-declare,
-_WidgetBase,
-_TemplatedMixin,
+declare,_WidgetBase,_TemplatedMixin,
 // Client API and DOJO functions
-dom,
-dojoDom,
-domQuery,
-domProp,
-domGeom,
-domClass,
-domAttr,
-domStyle,
-win,
-domConstruct,
-dojoArray,
-dojoLang,
-html,
-ready,
-_jQuery) {
+dom,dojoDom,domQuery,domProp,domGeom,domClass,domAttr,domStyle,win,domConstruct,dojoArray,dojoLang,html,ready,_jQuery) {
 
     "use strict";
     var $ = _jQuery.noConflict(true);
 
     // Declare widget.
-    return declare([
-        _WidgetBase, _TemplatedMixin
-    ], {
+    return declare([_WidgetBase, _TemplatedMixin], {
 
         contentDisplay: false,
         contentSet: false,
         _contextObj: null,
         _params: null,
-        _pageContext: null,
-        _ioBind: null,
+        _mxForm: null,
 
         startup: function() {
             if (typeof window.slideoutstorage === 'undefined') {
@@ -82,7 +63,7 @@ _jQuery) {
         // Attach events to HTML dom elements
         _setupEvents: function() {
             logger.debug("Core." + this.id + "._setupEvents hide all content");
-            logger.debug(this.id + "._setupEvents");
+            console.log(this.id + "._setupEvents");
             this.connect(this.slidebutton, "click", this._toggleContent);
         },
 
@@ -117,7 +98,7 @@ _jQuery) {
                 $(window).click(dojoLang.hitch(this, function(e) {
                     var list = $(e.target).parents();
                     if ($.inArray(this.slidecontainer, list) === -1 && $.inArray(this.slidecontrol, list) === -1) {
-                        console.log("Not a parent of the widget of the list: " + list.length + ", toggle content");
+                        logger.debug("Not a parent of the widget of the list: " + list.length + ", toggle content");
                         this._toggleContent();
                     }
                 }));
@@ -152,29 +133,27 @@ _jQuery) {
         },
 
         _setPage: function(pageObj) {
+            var props = {
+                location: "node",
+                domNode: this.slidecontent,
+                callback: dojoLang.hitch(this, function(form) {
+                    logger.debug(this.id + '._loadPage page load. ' + form.id);
+                    this._mxForm = form;
+                }),
+                error: dojoLang.hitch(this, function(form) {
+                    logger.debug(this.id + '._loadPage Error loading page.');
+                })
+            };
+            
             if (pageObj) {
-                logger.debug(this.id + '._setPage get page with context.');
-                this._pageContext = new mendix.lib.MxContext();
-                this._pageContext.setTrackObject(pageObj);
-                this._ioBind = mx.ui.openForm(this.pageContent, {
-                    context: this._pageContext,
-                    location: "content",
-                    domNode: this.slidecontent,
-                    callback: dojoLang.hitch(this, function(form) {
-                        logger.debug(this.id + '._loadPage page load. ' + form.id);
-                    })
-                });
-            } else {
-                logger.debug(this.id + '._setPage get page.');
-                var ioBind = mx.ui.openForm(this.pageContent, {
-                    location: "content",
-                    domNode: this.slidecontent,
-                    callback: dojoLang.hitch(this, function(form) {
-                        logger.debug(this.id + '._loadPage page load. ' + form.id);
-                    })
-                });
+                var pageContext = new mendix.lib.MxContext();
+                pageContext.setTrackObject(pageObj);
+                props.context = pageContext;
             }
+            
+            this._form = mx.ui.openForm(this.pageContent, props);
             this.contentSet = true;
+            
         },
 
         _setButtonTop: function() {
@@ -189,7 +168,7 @@ _jQuery) {
                         item.toppos = top;
                         totalTop = totalTop + item.control.offsetWidth + 5;
                     }
-                    console.log("Core." + this.id + "._setButtonTop for id " + item.id + " totaltop: " + totalTop + " button width: " + item.control.offsetWidth);
+                    logger.debug("Core." + this.id + "._setButtonTop for id " + item.id + " totaltop: " + totalTop + " button width: " + item.control.offsetWidth);
                 }
             } else {
                 var top = ((this.slidecontrol.offsetWidth / 2) + this.topPosition) + "px";
@@ -199,34 +178,21 @@ _jQuery) {
 
         // mxui.widget._WidgetBase.uninitialize is called when the widget is destroyed. Implement to do special tear-down work.
         uninitialize: function() {
-            $(window).off("click");
+            console.log("Destroy Slide In/Out");
+            if (this.contentDisplay) {
+                $(window).off("click");
+            }
             if (typeof window.slideoutstorage !== 'undefined') {
                 var index = window.slideoutstorage.indexOf(this._params);
                 if (index > -1) {
                     window.slideoutstorage.splice(index, 1);
                 }
-                console.log(this.id + ".uninitialize params found at: " + index + " for length: " + window.slideoutstorage.length);
+                logger.debug(this.id + ".uninitialize params found at: " + index + " for length: " + window.slideoutstorage.length);
             }
-            if (this.contentDisplay) {
-                console.log(this.id + ".uninitialize hide all content");
-                this._setStyleText(this.slidecontent, "display:none;");
-                this._setStyleText(this.slidecontrol, "display:none;");
-                this._setStyleText(this.slidecontainer, "display:none;");
-            }
-            this.slidecontrol.innerHTML = "";
+            
+            this.slideholding.innerHTML = "";
             this._setButtonTop();
         },
-
-        //        uninitialize: function () {
-        //            logger.debug(this.id + ".uninitialize");
-        //            if (this._handle !== null) {
-        //                mx.data.unsubscribe(this._handle);
-        //            }
-        //
-        //            if (this._tooltipNode) {
-        //                domConstruct.destroy(this._tooltipNode);
-        //            }
-        //        },
 
         _sortArrayObj: function(values) {
             logger.debug(this.id + "._sortArrayObj");
@@ -271,7 +237,7 @@ _jQuery) {
                     }
                 }),
                 error: dojoLang.hitch(this, function(error) {
-                    console.log(this.id + "._executeMicroflow error: " + error.description);
+                    logger.debug(this.id + "._executeMicroflow error: " + error.description);
                 })
             }, this);
         }

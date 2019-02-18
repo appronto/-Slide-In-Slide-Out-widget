@@ -27,7 +27,7 @@ In the content you can place a microflow trigger, but don't use the close activi
 
 #Dependencies
 
-Mendix 6.6.0 and higher (built and tested)
+Mendix 7.11.0 and higher (built and tested)
 
 #Installation
 

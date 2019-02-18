@@ -66,11 +66,18 @@ define([
 
         // mxui.widget._WidgetBase.update is called when context is changed or initialized. Implement to re-render and / or fetch data.
         update: function (obj, callback) {
-            console.log(this.id + ".update");
+            logger.debug(this.id + ".update");
 
             this._contextObj = obj;
             this._resetSubscriptions();
             this._updateRendering(callback); // We're passing the callback to updateRendering to be called after DOM-manipulation			
+        },
+        
+         uninitialize: function () {
+            console.log(this.id + ".uninitialize");
+            if (this._handle) {
+                mx.data.unsubscribe(this._handle);
+            }
         },
 
         // mxui.widget._WidgetBase.enable is called when the widget should enable editing. Implement to enable editing if widget is input widget.
@@ -206,7 +213,7 @@ define([
             if (obj.isEnum(attr)) {
                 returnvalue = this._checkString(obj.getEnumCaption(attr, obj.get(attr)), renderAsHTML);
             } else if (obj.getAttributeType(attr) === "String" || obj.isNumeric(attr) || obj.getAttributeType(attr) === "AutoNumber") {
-				returnvalue = this._checkString(mx.parser.formatAttribute(obj, attr), renderAsHTML);
+				returnvalue = this._checkString(mx.parser.atAttribute(obj, attr), renderAsHTML);
             }
             if (returnvalue === "") {
                 return "";
@@ -228,10 +235,13 @@ define([
                 str = str.split("${" + settings.variable + "}").join(settings.value);
             }
             
-			console.log(this.id + "._buildString: " + str);
-            this.slidebutton.innerHTML = str;
+			logger.debug(this.id + "._buildString: " + str);
+            
+            if(this.slidebutton) {
+                this.slidebutton.innerHTML = str;
 
-			this._setButtonTop();
+                this._setButtonTop();
+            }
 			
             if (callback && typeof callback === "function") {
                 logger.debug(this.id + "._renderString callback");
@@ -251,7 +261,7 @@ define([
 			if(this.contentSet) {
 				if(this.refreshMF && this._contextObj){
 					this._executeMicroflow(this.refreshMF, dojoLang.hitch(this, function () {
-						console.log(this.id + " refresh done.");
+						logger.debug(this.id + " refresh done.");
 					}), this._contextObj);
 				}
 			} else {	
@@ -265,7 +275,7 @@ define([
 		},
         
         _unsubscribe: function () {
-			console.log(this.id + "._unsubscribe");
+			logger.debug(this.id + "._unsubscribe");
           	if (this._handles) {
 				dojoArray.forEach(this._handles, function (handle) {
 				  mx.data.unsubscribe(handle);
@@ -288,33 +298,9 @@ define([
                         this._updateRendering();
                     })
                 });
-
-                var attrHandle = mx.data.subscribe({
-                    guid: this._contextObj.getGuid(),
-                    attr: this.backgroundColor,
-                    callback: dojoLang.hitch(this, function (guid, attr, attrValue) {
-                        this._updateRendering();
-                    })
-                });
-
-                var validationHandle = mx.data.subscribe({
-                    guid: this._contextObj.getGuid(),
-                    val: true,
-                    callback: dojoLang.hitch(this, this._handleValidation)
-                });
-
-                this._handles = [ objectHandle, attrHandle, validationHandle ];
+                this._handles = [ objectHandle];
             }
-        },
-        
-        // Handle validations.
-        _handleValidation: function (validations) {},
-
-        // Clear validations.
-        _clearValidations: function () {},
-
-        // Add a validation.
-        _addValidation: function (message) {}
+        }
     });
 });
 
