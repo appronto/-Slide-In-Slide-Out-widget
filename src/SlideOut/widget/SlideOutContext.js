@@ -213,7 +213,7 @@ define([
             if (obj.isEnum(attr)) {
                 returnvalue = this._checkString(obj.getEnumCaption(attr, obj.get(attr)), renderAsHTML);
             } else if (obj.getAttributeType(attr) === "String" || obj.isNumeric(attr) || obj.getAttributeType(attr) === "AutoNumber") {
-				returnvalue = this._checkString(mx.parser.atAttribute(obj, attr), renderAsHTML);
+				returnvalue = this._checkString(mx.parser.formatAttribute(obj, attr), renderAsHTML);
             }
             if (returnvalue === "") {
                 return "";

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.mendix.com/package/1.0/">
+  <modelerProject xmlns="http://www.mendix.com/modelerProject/1.0/">
+    <project />
+    <projectFile path="SlideOutTest.mpr" />
+    <files>
+      <file path="resources\faq design.html" />
+      <file path="userlib\axiom-api-1.2.12.jar" />
+      <file path="userlib\axiom-api-1.2.12.jar.AppCloudServices.RequiredLib" />
+      <file path="userlib\commons-lang-2.5.jar" />
+      <file path="userlib\commons-lang-2.5.jar.AppCloudServices.RequiredLib" />
+      <file path="userlib\commons-logging-1.1.jar" />
+      <file path="userlib\commons-logging-1.1.jar.AppCloudServices.RequiredLib" />
+      <file path="userlib\guice-2.0.jar" />
+      <file path="userlib\guice-2.0.jar.AppCloudServices.RequiredLib" />
+      <file path="userlib\openid4java-0.9.8.jar" />
+      <file path="userlib\openid4java-1.0.0.jar" />
+      <file path="userlib\openid4java-1.0.0.jar.AppCloudServices.RequiredLib" />
+      <file path="userlib\org.apache.httpcomponents.httpclient-osgi.jar" />
+      <file path="userlib\org.apache.httpcomponents.httpclient-osgi.jar.AppCloudServices.RequiredLib" />
+      <file path="userlib\org.apache.httpcomponents.httpcore-osgi.jar" />
+      <file path="userlib\org.apache.httpcomponents.httpcore-osgi.jar.AppCloudServices.RequiredLib" />
+      <file path="javasource\administration\proxies\Account.java" />
+      <file path="javasource\administration\proxies\AccountPasswordData.java" />
+      <file path="javasource\administration\proxies\Notification.java" />
+      <file path="javasource\administration\proxies\microflows\Microflows.java" />
+      <file path="javasource\appcloudservices\CommonsLoggingListener.java" />
+      <file path="javasource\appcloudservices\DefaultLoginHandler.java" />
+      <file path="javasource\appcloudservices\ILoginHandler.java" />
+      <file path="javasource\appcloudservices\OpenIDHandler.java" />
+      <file path="javasource\appcloudservices\OpenIDUtils.java" />
+      <file path="javasource\appcloudservices\SessionInitializer.java" />
+      <file path="javasource\appcloudservices\actions\GenerateRandomPassword.java" />
+      <file path="javasource\appcloudservices\actions\LogOutUser.java" />
+      <file path="javasource\appcloudservices\actions\StartSignOnServlet.java" />
+      <file path="javasource\appcloudservices\proxies\constants\Constants.java" />
+      <file path="javasource\appcloudservices\proxies\microflows\Microflows.java" />
+      <file path="javasource\inviteapi\proxies\microflows\Microflows.java" />
+      <file path="javasource\permissionsapi\proxies\AppRole.java" />
+      <file path="javasource\permissionsapi\proxies\microflows\Microflows.java" />
+      <file path="javasource\profileservice\proxies\Company.java" />
+      <file path="javasource\profileservice\proxies\UserProfile.java" />
+      <file path="javasource\profileservice\proxies\microflows\Microflows.java" />
+      <file path="javasource\system\UserActionsRegistrar.java" />
+      <file path="javasource\system\actions\VerifyPassword.java" />
+      <file path="javasource\system\proxies\DeviceType.java" />
+      <file path="javasource\system\proxies\Error.java" />
+      <file path="javasource\system\proxies\EventStatus.java" />
+      <file path="javasource\system\proxies\FileDocument.java" />
+      <file path="javasource\system\proxies\HttpHeader.java" />
+      <file path="javasource\system\proxies\HttpMessage.java" />
+      <file path="javasource\system\proxies\HttpRequest.java" />
+      <file path="javasource\system\proxies\HttpResponse.java" />
+      <file path="javasource\system\proxies\Image.java" />
+      <file path="javasource\system\proxies\Language.java" />
+      <file path="javasource\system\proxies\ScheduledEventInformation.java" />
+      <file path="javasource\system\proxies\Session.java" />
+      <file path="javasource\system\proxies\SoapFault.java" />
+      <file path="javasource\system\proxies\TimeZone.java" />
+      <file path="javasource\system\proxies\TokenInformation.java" />
+      <file path="javasource\system\proxies\User.java" />
+      <file path="javasource\system\proxies\UserReportInfo.java" />
+      <file path="javasource\system\proxies\UserRole.java" />
+      <file path="javasource\system\proxies\UserType.java" />
+      <file path="javasource\system\proxies\XASInstance.java" />
+      <file path="javasource\system\proxies\microflows\Microflows.java" />
+      <file path="javasource\testsuite\proxies\CurrentPage.java" />
+      <file path="javasource\testsuite\proxies\FAQ.java" />
+      <file path="javasource\testsuite\proxies\Page.java" />
+      <file path="javasource\testsuite\proxies\microflows\Microflows.java" />
+      <file path="theme\index.html" />
+      <file path="theme\css\custom.css" />
+      <file path="theme\css\login.css" />
+      <file path="theme\css\phone-preview.css" />
+      <file path="theme\css\tablet-preview.css" />
+      <file path="theme\css\theme.css" />
+      <file path="theme\css\images\ipad.png" />
+      <file path="theme\css\images\iphone.png" />
+      <file path="theme\css\images\mendix-logo.png" />
+      <file path="widgets\FormatString.mpk" />
+      <file path="widgets\MendixAppCloudNavigation.mpk" />
+      <file path="widgets\SlideOut.mpk" />
+    </files>
+  </modelerProject>
+</package>

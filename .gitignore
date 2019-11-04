@@ -6,6 +6,14 @@ test/theme/
 test/userlib/
 test/.classpath
 test/.project
+test8/javasource/
+test8/deployment/
+test8/.classpath
+test8/.project
+test8/theme/
+test8/userlib/
+test8/.classpath
+test8/.project
 *.launch
 *.tmp
 *.lock
@@ -17,3 +25,4 @@ node_modules/
 .editorconfig
 *DS_Store*
 
+test8/deployment/data/.policy
