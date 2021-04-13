@@ -107,8 +107,6 @@ define([
         _updateRendering: function (callback) {
             logger.debug(this.id + "._updateRendering");
            	this._loadData(callback);
-            // The callback, coming from update, needs to be executed, to let the page know it finished rendering
-            // mendix.lang.nullExec(callback);
         },
 		
 		_loadData: function (callback) {
@@ -121,7 +119,7 @@ define([
 
             if (!this._contextObj) {
                 logger.debug(this.id + "._loadData empty context");
-                mendix.lang.nullExec(callback);
+                if (callback) callback();
                 return;
             }
 

@@ -105,7 +105,7 @@ define([
 			this._setButtonTop();
 			
             // The callback, coming from update, needs to be executed, to let the page know it finished rendering
-            mendix.lang.nullExec(callback);
+            if (callback) callback();
         },
 		
 		_loadPage: function(){
