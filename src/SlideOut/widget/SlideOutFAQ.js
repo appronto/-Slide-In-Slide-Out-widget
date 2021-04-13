@@ -107,7 +107,7 @@ define([
 			this.slidecontrol.style.top = ((this.slidecontrol.offsetWidth / 2) + this.topPosition) + "px";
 			
             // The callback, coming from update, needs to be executed, to let the page know it finished rendering
-            mendix.lang.nullExec(callback);
+            if (callback) callback();
         },
 		
 		_setCurrentPage: function(){
