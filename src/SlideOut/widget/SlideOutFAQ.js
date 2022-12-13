@@ -107,14 +107,19 @@ define([
 			this.slidecontrol.style.top = ((this.slidecontrol.offsetWidth / 2) + this.topPosition) + "px";
 			
             // The callback, coming from update, needs to be executed, to let the page know it finished rendering
-            mendix.lang.nullExec(callback);
+            if (callback) {
+                callback();
+            }
         },
 		
 		_setCurrentPage: function(){
 			var formname = '';
 
 			try {
-				if (typeof(mx.router.getContentForm) === "on" && typeof(mx.router.getContentForm().path) !== "undefined") {
+                if (typeof(mx.ui.getContentForm) === "function" && typeof(mx.ui.getContentForm().path) !== "undefined") {
+					// ????????? 🙃 
+					formname = mx.ui.getContentForm().path;
+				}else if (typeof(mx.router.getContentForm) === "on" && typeof(mx.router.getContentForm().path) !== "undefined") {
 					// mx6.1+
 					formname = mx.router.getContentForm().path;
 				} else if (this.mxform !== "undefined"){
@@ -134,10 +139,11 @@ define([
 				} else if (this.userdata) {
 					formname = this.userdata.formName;
 				} 
+                // console.info("page obj & attr", {obj: this._pageObj, attr: this.pageAttr});
 				this._pageObj.set(this.pageAttr,formname);	
 				console.log(this.id + '._setCurrentPage page found: ' + formname);
 			} catch (e) {
-				console.log(this.id + '._setCurrentPage failed to load current page.' + e);
+				console.error(this.id + '._setCurrentPage failed to load current page.' + e);
 			}
 		},
 		
